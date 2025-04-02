@@ -1,5 +1,9 @@
 import type { FilterQuery } from "mongoose";
-import { DatabaseError, NotFoundError } from "../../common/errors/errors.ts";
+import {
+  BadRequestError,
+  DatabaseError,
+  NotFoundError,
+} from "../../common/errors/errors.ts";
 import { userDao } from "./user.dao.ts";
 import type { IUserSchema } from "./user.schema.ts";
 
@@ -11,6 +15,9 @@ class UserService {
   }
 
   async getOne(query: FilterQuery<IUserSchema>): Promise<IUserSchema> {
+    if ("password" in query) {
+      throw new BadRequestError("Query cannot include the password field");
+    }
     const user = await userDao.getOne(query);
     if (!user) throw new NotFoundError("User not found");
     return user;
