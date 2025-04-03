@@ -2,9 +2,19 @@ import type { NextFunction, Request, Response } from "express";
 import { userService } from "./user.service.ts";
 
 class UserController {
+  async create(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { body } = req.body;
+      const newUser = await userService.create(body);
+      res.status(201).json({ status: "ok", payload: newUser });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      //const users = await userService.getAll();
+      const users = await userService.getAll();
       res.status(200).json({ status: "ok", payload: "users" });
     } catch (err) {
       next(err);

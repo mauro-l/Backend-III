@@ -8,6 +8,12 @@ import { userDao } from "./user.dao.ts";
 import type { IUserSchema } from "./user.schema.ts";
 
 class UserService {
+  async create(data: IUserSchema): Promise<IUserSchema> {
+    const newUser = await userDao.create(data);
+    if (!newUser) throw new DatabaseError("Failed to create user");
+    return newUser;
+  }
+
   async getAll(): Promise<IUserSchema[]> {
     const users = await userDao.getAll();
     if (!users) throw new NotFoundError("No users found");

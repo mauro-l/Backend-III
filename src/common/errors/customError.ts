@@ -1,11 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import { logger } from "../utils/loggers.js";
-
-interface CustomError {
-  statusCode: number;
-  message: string;
-  stack?: string;
-}
+import type { CustomError } from "./appError.js";
 
 export const customError = async (
   err: CustomError,
@@ -25,11 +20,16 @@ export const customError = async (
     method: req.method,
   };
 
-  logger.log(
-    "error",
-    `Status: ${statusCode} [${req.method}] ${req.originalUrl} - Message: ${err.message}`
-  );
-  console.log(error);
+  if (statusCode === 500) {
+    logger.error(
+      `Status: ${statusCode} [${req.method}] ${req.originalUrl} - Message: ${err.message}`
+    );
+    logger.error(JSON.stringify(error, null, 2));
+
+    return res.status(statusCode).json({ message });
+  }
+
+  logger.debug(JSON.stringify(error, null, 2));
 
   res.status(statusCode).json({ message });
 };

@@ -3,6 +3,11 @@ import { userModel } from "./user.model.ts";
 import type { IUserSchema } from "./user.schema.ts";
 
 class UserDao {
+  async create(userData: IUserSchema): Promise<IUserSchema> {
+    const newUser = await userModel.create(userData);
+    return newUser.toObject() as IUserSchema;
+  }
+
   async getAll(): Promise<IUserSchema[] | null> {
     return await userModel.find();
   }
