@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const userMockSchema = {
+export const userSchema = {
   body: z.object({
     id: z.string().optional(),
     first_name: z
@@ -19,5 +19,14 @@ export const userMockSchema = {
   }),
 };
 
+export const userParamsSchema = {
+  params: z.object({
+    amount: z.coerce
+      .number({ invalid_type_error: "Amount must be a number" })
+      .int("Amount must be an integer")
+      .positive("Amount must be a positive number"),
+  }),
+};
+
 // Inferir el tipo completo del esquema
-export type IUserSchema = z.infer<typeof userMockSchema.body>;
+export type IUserSchema = z.infer<typeof userSchema.body>;

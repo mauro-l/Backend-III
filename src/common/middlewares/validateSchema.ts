@@ -1,10 +1,10 @@
 import type { NextFunction, Request, Response } from "express";
-import { ZodSchema } from "zod";
+import { ZodObject, ZodSchema, type ZodRawShape } from "zod";
 
 type SchemaType = {
   body?: ZodSchema<any>;
   query?: ZodSchema<any>;
-  params?: ZodSchema<any>;
+  params?: ZodSchema<any> | ZodObject<ZodRawShape>;
 };
 
 export const validateSchema = (schema: SchemaType) => {
@@ -36,6 +36,8 @@ export const validateSchema = (schema: SchemaType) => {
             message: err.message,
           }))
         );
+      } else {
+        req.query = result.data;
       }
     }
 
@@ -48,6 +50,8 @@ export const validateSchema = (schema: SchemaType) => {
             message: err.message,
           }))
         );
+      } else {
+        req.params = result.data;
       }
     }
 

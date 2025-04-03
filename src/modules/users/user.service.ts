@@ -6,6 +6,7 @@ import {
 } from "../../common/errors/errors.ts";
 import { userDao } from "./user.dao.ts";
 import type { IUserSchema } from "./user.schema.ts";
+import { generateUserMock } from "../../mock/user.mock.ts";
 
 class UserService {
   async create(data: IUserSchema): Promise<IUserSchema> {
@@ -45,6 +46,19 @@ class UserService {
     const userDelete = await userDao.remove(id);
     if (!userDelete) throw new DatabaseError("Failed to delete user");
     return "User deleted";
+  }
+
+  async createUserMocks(amount: number): Promise<IUserSchema[]> {
+    await userDao.removeMockAll();
+    const users = generateUserMock(amount);
+    const createdUsers: IUserSchema[] = [];
+
+    for (const user of users) {
+      const createdUser = await userDao.create(user);
+      createdUsers.push(createdUser);
+    }
+
+    return createdUsers;
   }
 }
 

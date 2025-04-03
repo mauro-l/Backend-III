@@ -26,6 +26,10 @@ class UserDao {
   async remove(id: string): Promise<IUserSchema | null> {
     return await userModel.findByIdAndDelete(id);
   }
+
+  async removeMockAll() {
+    return await userModel.deleteMany();
+  }
 }
 
 export const userDao = new UserDao();

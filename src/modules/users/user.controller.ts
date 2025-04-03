@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { userService } from "./user.service.ts";
 import { BadRequestError } from "../../common/errors/errors.ts";
+import { generateUserMock } from "../../mock/user.mock.ts";
 
 class UserController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -48,10 +49,22 @@ class UserController {
     try {
       const { id } = req.params;
       if (!id) {
-        throw new Error("ID parameter is required");
+        throw new BadRequestError("ID parameter is required");
       }
       const response = await userService.remove(id);
       res.status(200).json({ status: "ok", payload: response });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async createUserMocks(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { amount } = req.params;
+      if (!amount) throw new BadRequestError("Amount parameter is required");
+
+      const users = await userService.createUserMocks(Number(amount));
+      res.status(201).json({ status: "ok", payload: users });
     } catch (err) {
       next(err);
     }
