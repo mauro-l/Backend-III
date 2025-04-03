@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { userService } from "./user.service.ts";
+import { BadRequestError } from "../../common/errors/errors.ts";
 
 class UserController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -35,9 +36,7 @@ class UserController {
     try {
       const { id } = req.params;
       const { body } = req.body;
-      if (!id) {
-        throw new Error("ID parameter is required");
-      }
+      if (!id) throw new BadRequestError("ID parameter is required");
       const userUpdate = await userService.update(id, body);
       res.status(200).json({ status: "ok", payload: userUpdate });
     } catch (err) {
