@@ -6,6 +6,7 @@ import {
 } from "../../common/errors/errors.ts";
 import { petDao } from "./pet.dao.ts";
 import type { IPetSchema } from "./pet.schema.ts";
+import { generatePetsMock } from "../../mock/pets.mock.ts";
 
 class PetService {
   async create(data: IPetSchema): Promise<IPetSchema> {
@@ -38,16 +39,33 @@ class PetService {
     return petUpdate;
   }
 
-  async remove(query: FilterQuery<IPetSchema>): Promise<string> {
-    const pet = await petDao.getOne(query);
+  async remove(id: string): Promise<string> {
+    const pet = await petDao.getOne({ _id: id });
     if (!pet) throw new NotFoundError("Pet not found");
 
-    if (!pet.id) throw new BadRequestError("Pet ID is missing");
-
-    const petRemove = await petDao.remove(pet.id);
+    const petRemove = await petDao.remove(id);
     if (!petRemove) throw new DatabaseError("Failed to remove pet");
 
     return "Pet successfully remove";
+  }
+
+  async removeMockAll() {
+    const pets = await petDao.removeMockAll();
+    if (!pets) throw new DatabaseError("Failed to remove pets mock");
+    return pets;
+  }
+
+  async createPetsMocks(amount: number): Promise<IPetSchema[] | null> {
+    await petDao.removeMockAll();
+    const pets = generatePetsMock(amount);
+    const createdPets: IPetSchema[] = [];
+
+    for (const pet of pets) {
+      const newPet = await petDao.create(pet);
+      createdPets.push(newPet);
+    }
+
+    return createdPets;
   }
 }
 

@@ -2,12 +2,12 @@ import type { NextFunction, Request, Response } from "express";
 import { userService } from "./user.service.ts";
 import { BadRequestError } from "../../common/errors/errors.ts";
 import { generateUserMock } from "../../mock/user.mock.ts";
+import { logger } from "../../common/utils/loggers.ts";
 
 class UserController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const { body } = req.body;
-      const newUser = await userService.create(body);
+      const newUser = await userService.create(req.body);
       res.status(201).json({ status: "ok", payload: newUser });
     } catch (err) {
       next(err);
@@ -17,7 +17,7 @@ class UserController {
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       const users = await userService.getAll();
-      res.status(200).json({ status: "ok", payload: "users" });
+      res.status(200).json({ status: "ok", payload: users });
     } catch (err) {
       next(err);
     }
@@ -36,9 +36,8 @@ class UserController {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const { body } = req.body;
       if (!id) throw new BadRequestError("ID parameter is required");
-      const userUpdate = await userService.update(id, body);
+      const userUpdate = await userService.update(id, req.body);
       res.status(200).json({ status: "ok", payload: userUpdate });
     } catch (err) {
       next(err);

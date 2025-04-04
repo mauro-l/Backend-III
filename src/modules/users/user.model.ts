@@ -22,6 +22,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "user",
   },
+  pets: {
+    type: [
+      {
+        _id: { type: mongoose.Schema.Types.ObjectId, ref: "pets" },
+      },
+    ],
+    default: [],
+  },
 });
 
 export const userModel = mongoose.model("users", userSchema);

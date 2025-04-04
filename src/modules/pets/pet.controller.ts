@@ -44,8 +44,27 @@ class PetController {
   }
   async remove(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const response = await petService.remove(req.query);
+      const { id } = req.params;
+      if (!id) throw new BadRequestError("ID parameter is required");
+      const response = await petService.remove(id);
       res.status(200).json({ status: "ok", payload: response });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async createPetsMocks(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { amount } = req.params;
+      if (!amount) throw new BadRequestError("Amount parameter is required");
+
+      const pets = await petService.createPetsMocks(Number(amount));
+
+      res.status(201).json({ status: "ok", payload: pets });
     } catch (err) {
       next(err);
     }

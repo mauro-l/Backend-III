@@ -1,4 +1,4 @@
-import type { FilterQuery } from "mongoose";
+import type { DeleteResult, FilterQuery } from "mongoose";
 import { userModel } from "./user.model.ts";
 import type { IUserSchema } from "./user.schema.ts";
 
@@ -27,7 +27,7 @@ class UserDao {
     return await userModel.findByIdAndDelete(id);
   }
 
-  async removeMockAll() {
+  async removeMockAll(): Promise<DeleteResult> {
     return await userModel.deleteMany();
   }
 }

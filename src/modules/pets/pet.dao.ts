@@ -1,5 +1,6 @@
 import type { FilterQuery } from "mongoose";
 import { petModel } from "./pet.model.ts";
+import type { DeleteResult } from "mongoose";
 import type { IPetSchema } from "./pet.schema.ts";
 
 class PetDao {
@@ -25,6 +26,10 @@ class PetDao {
 
   async remove(id: string): Promise<IPetSchema | null> {
     return await petModel.findByIdAndDelete(id);
+  }
+
+  async removeMockAll(): Promise<DeleteResult> {
+    return await petModel.deleteMany({});
   }
 }
 

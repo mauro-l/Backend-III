@@ -54,8 +54,8 @@ class UserService {
     const createdUsers: IUserSchema[] = [];
 
     for (const user of users) {
-      const createdUser = await userDao.create(user);
-      createdUsers.push(createdUser);
+      const newUser = await userDao.create(user);
+      createdUsers.push(newUser);
     }
 
     return createdUsers;
