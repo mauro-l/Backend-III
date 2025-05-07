@@ -7,7 +7,8 @@
     "test": "bun run ./node_modules/mocha/bin/mocha.js test/**/*.test.js",
     "test:dev": "bun run --watch ./node_modules/mocha/bin/mocha.js test/**/*.test.js",
     "start": "bun run src/app.ts",
-    "dev": "bun run --watch src/app.ts"
+    "dev": "bun run --watch src/app.ts",
+    "debug": "bun run --inspect src/app.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
@@ -39,3 +40,4 @@
     "zod": "^3.24.2"
   }
 }
+

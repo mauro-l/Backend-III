@@ -1,8 +1,4 @@
-import express, {
-  type NextFunction,
-  type Request,
-  type Response,
-} from "express";
+import express from "express";
 import cors from "cors";
 import router from "./routes/index.routes.ts";
 import { envsConfig } from "./config/envs.config.ts";
@@ -20,9 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
 
-app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
-  customError(err, req, res, next);
-});
+app.use(customError);
 
 app.listen(envsConfig.PORT, () => {
   logger.info(`Server is running ⚡️ at http://localhost:${envsConfig.PORT}`);

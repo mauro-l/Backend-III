@@ -1,8 +1,8 @@
 import { fakerES as faker } from "@faker-js/faker";
 import { createHash } from "../common/utils/hashPassword.ts";
-import type { IUserSchema } from "../modules/users/user.schema.ts";
+import type { IUser } from "../modules/users/user.interface.ts";
 
-export const generateUserMock = (amount: number): IUserSchema[] => {
+export const generateUserMock = (amount: number): IUser[] => {
   const users = [];
 
   for (let i = 0; i < amount; i++) {

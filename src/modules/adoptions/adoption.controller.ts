@@ -53,13 +53,13 @@ class AdoptionController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const { owner, pet } = req.body;
-    if (!Types.ObjectId.isValid(owner))
-      throw new BadRequestError("Invalid ownerId format");
-
-    if (!Types.ObjectId.isValid(pet))
-      throw new BadRequestError("Invalid petId format");
     try {
+      const { owner, pet } = req.body;
+      if (!Types.ObjectId.isValid(owner))
+        throw new BadRequestError("Invalid ownerId format");
+
+      if (!Types.ObjectId.isValid(pet))
+        throw new BadRequestError("Invalid petId format");
       const adoption = await adoptionService.createAdoption(owner, pet);
       res.status(201).json({ status: "ok", payload: adoption });
     } catch (err) {

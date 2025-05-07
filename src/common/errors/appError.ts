@@ -7,7 +7,7 @@ export class AppError extends Error {
   }
 }
 
-export interface CustomError {
+export interface CustomError extends Error {
   statusCode: number;
   message: string;
   stack?: string;

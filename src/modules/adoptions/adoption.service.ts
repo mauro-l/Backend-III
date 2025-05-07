@@ -6,13 +6,6 @@ import { adoptionDao } from "./adoption.dao.ts";
 import type { IAdoption } from "./adoption.interface.ts";
 
 class AdoptionService {
-  /* async getAllAdoptions(): Promise<IAdoption[] | null> {
-    const adoptions = await adoptionDao.getAll().populate("owner pet").lean();
-    return adoptions as IAdoption[];
-
-   /*  return (await adoptionDao.getAll().populate("owner pet")) as IAdoption[]; 
-  } */
-
   async getAllAdoptions(): Promise<IAdoption[] | null> {
     const adoptions = await adoptionDao.getAll();
     return adoptions as IAdoption[];
