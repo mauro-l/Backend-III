@@ -8,11 +8,10 @@ import {
 } from "../../common/utils/hashPassword.ts";
 import { createToken } from "../../common/utils/jwt.ts";
 import { userDao } from "../users/user.dao.ts";
-import type { IUserSchema } from "../users/user.schema.ts";
-import { userService } from "../users/user.service.ts";
+import type { IUser } from "../users/user.interface.ts";
 
 class AuthService {
-  async registerUser(user: IUserSchema) {
+  async registerUser(user: IUser) {
     const findUser = await userDao.getOne({ email: user.email });
     if (findUser) throw new ConflictError("User already exists");
 
@@ -20,11 +19,15 @@ class AuthService {
       ...user,
       password: createHash(user.password),
     };
-    const newUser = await userDao.create(newUserData);
-    return newUser;
+    try {
+      const newUser = await userDao.create(newUserData);
+      return newUser;
+    } catch (err) {
+      throw new Error(`Error creating user`);
+    }
   }
 
-  async login(email: Partial<IUserSchema>, password: string) {
+  async login(email: Partial<IUser>, password: string) {
     const findUser = await userDao.getOne({ email });
     if (!findUser || !isValidPassword(findUser, password)) {
       throw new UnauthorizedError("Invalid email or password");

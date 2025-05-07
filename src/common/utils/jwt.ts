@@ -1,8 +1,8 @@
 import { envsConfig } from "../../config/envs.config.ts";
-import type { IUserSchema } from "../../modules/users/user.schema.ts";
+import type { IUser } from "../../modules/users/user.interface.ts";
 import jwt from "jsonwebtoken";
 
-export const createToken = (user: IUserSchema): string => {
+export const createToken = (user: IUser): string => {
   const { id, email } = user;
   const token = jwt.sign({ id, email }, envsConfig.JWT_SECRET, {
     expiresIn: "30m",
@@ -15,6 +15,12 @@ export const verifyToken = (token: string) => {
     const decoded = jwt.verify(token, envsConfig.JWT_SECRET);
     return decoded;
   } catch (err) {
-    return null;
+    if (err instanceof jwt.TokenExpiredError) {
+      throw new Error("Token has expired");
+    } else if (err instanceof jwt.JsonWebTokenError) {
+      throw new Error("Invalid token");
+    } else {
+      throw new Error("Token verification failed");
+    }
   }
 };

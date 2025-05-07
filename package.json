@@ -18,8 +18,10 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.13.14",
+    "@types/supertest": "^6.0.3",
     "chai": "^5.2.0",
-    "mocha": "^11.1.0"
+    "mocha": "^11.1.0",
+    "supertest": "^7.1.0"
   },
   "peerDependencies": {
     "typescript": "^5.8.2"
@@ -37,4 +39,3 @@
     "zod": "^3.24.2"
   }
 }
-

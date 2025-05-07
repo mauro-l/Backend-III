@@ -1,13 +1,10 @@
 import bcrypt from "bcrypt";
-import type { IUserSchema } from "../../modules/users/user.schema.ts";
+import type { IUser } from "../../modules/users/user.interface.ts";
 
 export const createHash = (password: string): string => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 };
 
-export const isValidPassword = (
-  user: IUserSchema,
-  password: string
-): boolean => {
+export const isValidPassword = (user: IUser, password: string): boolean => {
   return bcrypt.compareSync(password, user.password);
 };

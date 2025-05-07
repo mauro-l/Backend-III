@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Types } from "mongoose";
 
 export const petsSchema = {
   body: z.object({
@@ -20,7 +21,12 @@ export const petsSchema = {
       }),
     adopted: z.boolean().optional(),
     image: z.string().optional(),
-    owner: z.string().optional(),
+    owner: z
+      .string()
+      .refine((id) => Types.ObjectId.isValid(id), {
+        message: "Owner must be a valid ObjectId",
+      })
+      .optional(),
   }),
 };
 

@@ -23,11 +23,8 @@ const userSchema = new mongoose.Schema({
     default: "user",
   },
   pets: {
-    type: [
-      {
-        _id: { type: mongoose.Schema.Types.ObjectId, ref: "pets" },
-      },
-    ],
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "pets",
     default: [],
   },
 });

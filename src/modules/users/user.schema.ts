@@ -2,7 +2,12 @@ import { z } from "zod";
 
 export const userSchema = {
   body: z.object({
-    id: z.string().optional(),
+    id: z
+      .string()
+      .regex(/^[a-fA-F0-9]{24}$/, {
+        message: "ID must be a valid MongoDB ObjectId",
+      })
+      .optional(),
     first_name: z
       .string()
       .min(3, { message: "First name must be at least 3 characters long" })
@@ -17,33 +22,9 @@ export const userSchema = {
       .min(6, { message: "Password must be at least 6 characters long" }),
     role: z.enum(["user", "admin"]).optional(),
     pets: z
-      .union([
-        // Un único ID como string
-        z.string().regex(/^[0-9a-fA-F]{24}$/, { message: "Invalid ObjectId" }),
-        // Un array de IDs como strings
-        z.array(
-          z.string().regex(/^[0-9a-fA-F]{24}$/, { message: "Invalid ObjectId" })
-        ),
-        // Un array de objetos pet (cuando está populado)
-        z.array(
-          z.object({
-            _id: z
-              .string()
-              .regex(/^[0-9a-fA-F]{24}$/)
-              .optional(),
-            // otros campos de tus mascotas si los necesitas validar
-            name: z.string().optional(),
-            specie: z.string().optional(),
-            birthday: z.date().optional(),
-            adopted: z.boolean().optional(),
-            image: z.string().optional(),
-            owner: z
-              .string()
-              .regex(/^[0-9a-fA-F]{24}$/)
-              .optional(), // ID del dueño, si es necesario
-          })
-        ),
-      ])
+      .array(
+        z.string().regex(/^[0-9a-fA-F]{24}$/, { message: "Invalid ObjectId" })
+      )
       .optional(),
   }),
 };
@@ -74,37 +55,9 @@ export const userUpdateSchema = {
         .optional(),
       role: z.enum(["user", "admin"]).optional(),
       pets: z
-        .union([
-          // Un único ID como string
-          z
-            .string()
-            .regex(/^[0-9a-fA-F]{24}$/, { message: "Invalid ObjectId" }),
-          // Un array de IDs como strings
-          z.array(
-            z
-              .string()
-              .regex(/^[0-9a-fA-F]{24}$/, { message: "Invalid ObjectId" })
-          ),
-          // Un array de objetos pet (cuando está populado)
-          z.array(
-            z.object({
-              _id: z
-                .string()
-                .regex(/^[0-9a-fA-F]{24}$/)
-                .optional(),
-              // otros campos de tus mascotas si los necesitas validar
-              name: z.string().optional(),
-              specie: z.string().optional(),
-              birthday: z.date().optional(),
-              adopted: z.boolean().optional(),
-              image: z.string().optional(),
-              owner: z
-                .string()
-                .regex(/^[0-9a-fA-F]{24}$/)
-                .optional(), // ID del dueño, si es necesario
-            })
-          ),
-        ])
+        .array(
+          z.string().regex(/^[0-9a-fA-F]{24}$/, { message: "Invalid ObjectId" })
+        )
         .optional(),
     })
     .refine((data) => Object.keys(data).length > 0, {

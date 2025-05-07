@@ -1,4 +1,4 @@
-import type { FilterQuery } from "mongoose";
+import type { FilterQuery, Types } from "mongoose";
 import {
   BadRequestError,
   DatabaseError,
@@ -7,30 +7,28 @@ import {
 import { petDao } from "./pet.dao.ts";
 import type { IPetSchema } from "./pet.schema.ts";
 import { generatePetsMock } from "../../mock/pets.mock.ts";
+import type { IPet } from "./pet.interface.ts";
 
 class PetService {
-  async create(data: IPetSchema): Promise<IPetSchema> {
+  async create(data: IPet): Promise<IPet> {
     const newPet = await petDao.create(data);
     if (!newPet) throw new DatabaseError("Failed to create pet");
     return newPet;
   }
 
-  async getAll(): Promise<IPetSchema[] | null> {
+  async getAll(): Promise<IPet[] | null> {
     const pets = await petDao.getAll();
     if (!pets) throw new NotFoundError("No pets found");
     return pets;
   }
 
-  async getOne(query: FilterQuery<IPetSchema>): Promise<IPetSchema> {
+  async getOne(query: FilterQuery<IPet>): Promise<IPet> {
     const pet = await petDao.getOne(query);
     if (!pet) throw new NotFoundError("Pet not found");
     return pet;
   }
 
-  async update(
-    id: string,
-    data: Partial<IPetSchema>[]
-  ): Promise<IPetSchema | null> {
+  async update(id: Types.ObjectId, data: Partial<IPet>): Promise<IPet | null> {
     const pet = await petDao.getOne({ _id: id });
     if (!pet) throw new NotFoundError("Pet not found");
 
@@ -55,10 +53,10 @@ class PetService {
     return pets;
   }
 
-  async createPetsMocks(amount: number): Promise<IPetSchema[] | null> {
+  async createPetsMocks(amount: number): Promise<IPet[] | null> {
     await petDao.removeMockAll();
     const pets = generatePetsMock(amount);
-    const createdPets: IPetSchema[] = [];
+    const createdPets: IPet[] = [];
 
     for (const pet of pets) {
       const newPet = await petDao.create(pet);

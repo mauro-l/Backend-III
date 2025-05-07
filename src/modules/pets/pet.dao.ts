@@ -1,30 +1,27 @@
-import type { FilterQuery } from "mongoose";
+import type { FilterQuery, Types } from "mongoose";
 import { petModel } from "./pet.model.ts";
 import type { DeleteResult } from "mongoose";
-import type { IPetSchema } from "./pet.schema.ts";
+import type { IPet } from "./pet.interface.ts";
 
 class PetDao {
-  async create(data: IPetSchema): Promise<IPetSchema> {
+  async create(data: IPet): Promise<IPet> {
     const newUser = await petModel.create(data);
-    return newUser.toObject() as IPetSchema;
+    return newUser.toObject() as IPet;
   }
 
-  async getAll(): Promise<IPetSchema[] | null> {
+  async getAll(): Promise<IPet[] | null> {
     return await petModel.find();
   }
 
-  async getOne(query: FilterQuery<IPetSchema>): Promise<IPetSchema | null> {
+  async getOne(query: FilterQuery<IPet>): Promise<IPet | null> {
     return await petModel.findOne(query);
   }
 
-  async update(
-    id: string,
-    data: Partial<IPetSchema>[]
-  ): Promise<IPetSchema | null> {
+  async update(id: Types.ObjectId, data: Partial<IPet>): Promise<IPet | null> {
     return await petModel.findByIdAndUpdate(id, data, { new: true });
   }
 
-  async remove(id: string): Promise<IPetSchema | null> {
+  async remove(id: string): Promise<IPet | null> {
     return await petModel.findByIdAndDelete(id);
   }
 
