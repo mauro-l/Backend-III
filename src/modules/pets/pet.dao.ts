@@ -13,15 +13,15 @@ class PetDao {
     return await petModel.find();
   }
 
-  async getOne(query: FilterQuery<IPet>): Promise<IPet | null> {
-    return await petModel.findOne(query);
+  async getOneById(id: Types.ObjectId): Promise<IPet | null> {
+    return await petModel.findById(id);
   }
 
   async update(id: Types.ObjectId, data: Partial<IPet>): Promise<IPet | null> {
     return await petModel.findByIdAndUpdate(id, data, { new: true });
   }
 
-  async remove(id: string): Promise<IPet | null> {
+  async remove(id: Types.ObjectId): Promise<IPet | null> {
     return await petModel.findByIdAndDelete(id);
   }
 

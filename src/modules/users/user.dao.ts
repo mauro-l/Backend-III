@@ -23,7 +23,7 @@ class UserDao {
     return await userModel.findByIdAndUpdate(id, data, { new: true });
   }
 
-  async remove(id: string): Promise<IUser | null> {
+  async remove(id: Types.ObjectId): Promise<IUser | null> {
     return await userModel.findByIdAndDelete(id);
   }
 

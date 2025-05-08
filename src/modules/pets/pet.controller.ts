@@ -26,7 +26,9 @@ class PetController {
 
   async getOne(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const pet = await petService.getOne(req.query);
+      const { id } = req.params;
+      if (!id) throw new BadRequestError("ID parameter is required");
+      const pet = await petService.getOneById(new Types.ObjectId(id));
       res.status(200).json({ status: "ok", payload: pet });
     } catch (err) {
       next(err);
@@ -49,7 +51,7 @@ class PetController {
     try {
       const { id } = req.params;
       if (!id) throw new BadRequestError("ID parameter is required");
-      const response = await petService.remove(id);
+      const response = await petService.remove(new Types.ObjectId(id));
       res.status(200).json({ status: "ok", payload: response });
     } catch (err) {
       next(err);

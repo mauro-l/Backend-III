@@ -1,4 +1,4 @@
-import type { FilterQuery, Types } from "mongoose";
+import type { Types } from "mongoose";
 import type { IAdoption } from "./adoption.interface.ts";
 import { adoptionModel } from "./adoption.model.ts";
 
@@ -24,8 +24,8 @@ class AdoptionDao {
       .lean();
   }
 
-  async getOne(query: FilterQuery<IAdoption>): Promise<IAdoption | null> {
-    return await adoptionModel.findOne(query);
+  async getOne(id: Types.ObjectId): Promise<IAdoption | null> {
+    return await adoptionModel.findById(id);
   }
 
   async update(

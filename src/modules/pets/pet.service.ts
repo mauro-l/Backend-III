@@ -1,11 +1,6 @@
-import type { FilterQuery, Types } from "mongoose";
-import {
-  BadRequestError,
-  DatabaseError,
-  NotFoundError,
-} from "../../common/errors/errors.ts";
+import type { Types } from "mongoose";
+import { DatabaseError, NotFoundError } from "../../common/errors/errors.ts";
 import { petDao } from "./pet.dao.ts";
-import type { IPetSchema } from "./pet.schema.ts";
 import { generatePetsMock } from "../../mock/pets.mock.ts";
 import type { IPet } from "./pet.interface.ts";
 
@@ -22,14 +17,14 @@ class PetService {
     return pets;
   }
 
-  async getOne(query: FilterQuery<IPet>): Promise<IPet> {
-    const pet = await petDao.getOne(query);
+  async getOneById(id: Types.ObjectId): Promise<IPet> {
+    const pet = await petDao.getOneById(id);
     if (!pet) throw new NotFoundError("Pet not found");
     return pet;
   }
 
   async update(id: Types.ObjectId, data: Partial<IPet>): Promise<IPet | null> {
-    const pet = await petDao.getOne({ _id: id });
+    const pet = await petDao.getOneById(id);
     if (!pet) throw new NotFoundError("Pet not found");
 
     const petUpdate = await petDao.update(id, data);
@@ -37,8 +32,8 @@ class PetService {
     return petUpdate;
   }
 
-  async remove(id: string): Promise<string> {
-    const pet = await petDao.getOne({ _id: id });
+  async remove(id: Types.ObjectId): Promise<string> {
+    const pet = await petDao.getOneById(id);
     if (!pet) throw new NotFoundError("Pet not found");
 
     const petRemove = await petDao.remove(id);

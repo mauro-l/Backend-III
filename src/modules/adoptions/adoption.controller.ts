@@ -17,30 +17,18 @@ class AdoptionController {
     }
   }
 
-  async getAdoptions(
+  async getAdoption(
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {
     try {
-      // Obtener los filtros desde req.query
-      const filters = req.query;
+      const { id } = req.params;
+      if (!id) throw new BadRequestError("ID parameter is required");
 
-      // Validar que al menos un filtro esté presente
-      if (!filters || Object.keys(filters).length === 0) {
-        throw new BadRequestError("At least one filter parameter is required");
-      }
-
-      // Si algún filtro es un ObjectId, validarlo y convertirlo
-      const query: Record<string, any> = {};
-      for (const [key, value] of Object.entries(filters)) {
-        if (Types.ObjectId.isValid(value as string)) {
-          query[key] = new Types.ObjectId(value as string);
-        } else {
-          query[key] = value;
-        }
-      }
-      const adoption = await adoptionService.getAdoption(query);
+      const adoption = await adoptionService.getAdoption(
+        new Types.ObjectId(id)
+      );
 
       res.status(200).json({ status: "ok", payload: adoption });
     } catch (err) {
@@ -55,11 +43,6 @@ class AdoptionController {
   ): Promise<void> {
     try {
       const { owner, pet } = req.body;
-      if (!Types.ObjectId.isValid(owner))
-        throw new BadRequestError("Invalid ownerId format");
-
-      if (!Types.ObjectId.isValid(pet))
-        throw new BadRequestError("Invalid petId format");
       const adoption = await adoptionService.createAdoption(owner, pet);
       res.status(201).json({ status: "ok", payload: adoption });
     } catch (err) {

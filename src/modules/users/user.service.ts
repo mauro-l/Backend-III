@@ -1,9 +1,5 @@
-import { Types, type FilterQuery } from "mongoose";
-import {
-  BadRequestError,
-  DatabaseError,
-  NotFoundError,
-} from "../../common/errors/errors.ts";
+import { Types } from "mongoose";
+import { DatabaseError, NotFoundError } from "../../common/errors/errors.ts";
 import { userDao } from "./user.dao.ts";
 import { generateUserMock } from "../../mock/user.mock.ts";
 import type { IUser } from "./user.interface.ts";
@@ -21,26 +17,23 @@ class UserService {
     return users;
   }
 
-  async getOne(query: FilterQuery<IUser>): Promise<IUser> {
-    if ("password" in query) {
-      throw new BadRequestError("Query cannot include the password field");
-    }
-    const user = await userDao.getOne(query);
+  async getOne(id: Types.ObjectId): Promise<IUser> {
+    const user = await userDao.getOne(id);
     if (!user) throw new NotFoundError("User not found");
     return user;
   }
 
-  async update(id: string, data: Partial<IUser>): Promise<IUser> {
-    const user = await userDao.getOne({ _id: id });
+  async update(id: Types.ObjectId, data: Partial<IUser>): Promise<IUser> {
+    const user = await userDao.getOne(id);
     if (!user) throw new NotFoundError("No users found");
 
-    const userUpdate = await userDao.update(new Types.ObjectId(id), data);
+    const userUpdate = await userDao.update(id, data);
     if (!userUpdate) throw new DatabaseError("Failed to update user");
     return userUpdate;
   }
 
-  async remove(id: string): Promise<string> {
-    const user = await userDao.getOne({ _id: id });
+  async remove(id: Types.ObjectId): Promise<string> {
+    const user = await userDao.getOne(id);
     if (!user) throw new NotFoundError("No users found");
 
     const userDelete = await userDao.remove(id);

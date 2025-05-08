@@ -1,4 +1,4 @@
-import { Types, type FilterQuery } from "mongoose";
+import { Types } from "mongoose";
 import { NotFoundError } from "../../common/errors/errors.ts";
 import { petDao } from "../pets/pet.dao.ts";
 import { userDao } from "../users/user.dao.ts";
@@ -11,8 +11,8 @@ class AdoptionService {
     return adoptions as IAdoption[];
   }
 
-  async getAdoption(query: FilterQuery<IAdoption>): Promise<IAdoption | null> {
-    const adoption = await adoptionDao.getOne(query);
+  async getAdoption(id: Types.ObjectId): Promise<IAdoption | null> {
+    const adoption = await adoptionDao.getOne(id);
     if (!adoption) throw new NotFoundError("Adoption not found");
     return adoption;
   }
@@ -21,11 +21,11 @@ class AdoptionService {
     ownerId: Types.ObjectId,
     petId: Types.ObjectId
   ): Promise<IAdoption | null> {
-    const pet = await petDao.getOne({ _id: petId });
+    const pet = await petDao.getOneById(petId);
     if (!pet) throw new NotFoundError("Pet not found");
     if (pet.adopted) throw new NotFoundError("Pet already adopted");
 
-    const user = await userDao.getOne({ _id: ownerId });
+    const user = await userDao.getOne(ownerId);
     if (!user || !user.id) throw new NotFoundError("User not found");
 
     const adoption = await adoptionDao.create({
