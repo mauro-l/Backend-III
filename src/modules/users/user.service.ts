@@ -41,8 +41,14 @@ class UserService {
     return "User deleted";
   }
 
+  async removeAll(): Promise<string> {
+    const userDelete = await userDao.removeAll();
+    if (!userDelete) throw new DatabaseError("Failed to delete");
+    return "Users deleted";
+  }
+
   async createUserMocks(amount: number): Promise<IUser[]> {
-    await userDao.removeMockAll();
+    await userDao.removeAll();
     const users = generateUserMock(amount);
     const createdUsers: IUser[] = [];
 

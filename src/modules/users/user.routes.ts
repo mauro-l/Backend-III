@@ -11,6 +11,7 @@ router.get("/", userController.getAll);
 router.get("/:id", validateSchema(objectIdSchema), userController.getOne);
 router.put("/:id", validateSchema(userUpdateSchema), userController.update);
 router.delete("/:id", validateSchema(objectIdSchema), userController.remove);
+router.delete("/delete/all", userController.removeAll);
 router.get(
   "/mocks/:amount",
   validateSchema(amountParamsSchema),

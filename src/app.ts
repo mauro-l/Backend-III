@@ -5,7 +5,6 @@ import { envsConfig } from "./config/envs.config.ts";
 import { logger } from "./common/utils/loggers.ts";
 import { connectDB } from "./config/mongodb.config.ts";
 import { customError } from "./common/errors/customError.ts";
-import type { CustomError } from "./common/errors/appError.ts";
 
 connectDB();
 const app = express();

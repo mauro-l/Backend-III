@@ -3,8 +3,9 @@ import { expect } from "chai";
 import dotenv from "dotenv";
 import { petDao } from "../../src/modules/pets/pet.dao.ts";
 
-dotenv.config();
+dotenv.config({ path: "./.env.qa", override: true });
 const DB_TEST = process.env.DATABASE_TEST || "";
+console.log(DB_TEST);
 
 describe("===== TEST PETDAO =====", () => {
   let petTest;
@@ -36,7 +37,7 @@ describe("===== TEST PETDAO =====", () => {
   });
 
   it("Should find a pet by ID", async () => {
-    const pet = await petDao.getOne({ _id: petTest._id });
+    const pet = await petDao.getOneById(petTest._id);
 
     expect(pet).to.be.an("object");
     expect(pet).to.have.property("_id");
@@ -68,7 +69,7 @@ describe("===== TEST PETDAO =====", () => {
 
   it("Should remove a pet", async () => {
     const petDelete = await petDao.remove(petTest._id);
-    const petInDb = await petDao.getOne({ _id: petDelete._id });
+    const petInDb = await petDao.getOneById(petDelete._id);
     expect(petInDb).to.be.null;
   });
 

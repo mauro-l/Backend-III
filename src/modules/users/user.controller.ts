@@ -1,8 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { userService } from "./user.service.ts";
 import { BadRequestError } from "../../common/errors/errors.ts";
-import { generateUserMock } from "../../mock/user.mock.ts";
-import { logger } from "../../common/utils/loggers.ts";
 import { Types } from "mongoose";
 
 class UserController {
@@ -53,6 +51,15 @@ class UserController {
       const { id } = req.params;
       if (!id) throw new BadRequestError("ID parameter is required");
       const response = await userService.remove(new Types.ObjectId(id));
+      res.status(200).json({ status: "ok", payload: response });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async removeAll(req: Request, res: Response, next: NextFunction) {
+    try {
+      const response = await userService.removeAll();
       res.status(200).json({ status: "ok", payload: response });
     } catch (err) {
       next(err);

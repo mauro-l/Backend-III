@@ -3,7 +3,7 @@ import { expect } from "chai";
 import dotenv from "dotenv";
 import { userDao } from "../../src/modules/users/user.dao.ts";
 
-dotenv.config();
+dotenv.config({ path: "./.env.qa", override: true });
 const DB_TEST = process.env.DATABASE_TEST || "";
 
 describe("===== TEST USERDAO =====", () => {
@@ -16,7 +16,7 @@ describe("===== TEST USERDAO =====", () => {
   });
 
   beforeEach(async () => {
-    await userDao.removeMockAll(); // Limpia la colección antes de cada prueba
+    await userDao.removeAll(); // Limpia la colección antes de cada prueba
     const newUser = {
       first_name: "John",
       last_name: "Doe",
@@ -85,7 +85,7 @@ describe("===== TEST USERDAO =====", () => {
   });
 
   after(async () => {
-    await userDao.removeMockAll();
+    await userDao.removeAll();
     console.log("Cleaning up the database...");
     console.log("<> Tests in userDao completed. <>");
     mongoose.connection.close();

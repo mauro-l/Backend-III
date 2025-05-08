@@ -27,7 +27,7 @@ class UserDao {
     return await userModel.findByIdAndDelete(id);
   }
 
-  async removeMockAll(): Promise<DeleteResult> {
+  async removeAll(): Promise<DeleteResult> {
     return await userModel.deleteMany();
   }
 }
