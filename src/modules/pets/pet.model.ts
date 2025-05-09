@@ -7,9 +7,9 @@ const petSchema = new mongoose.Schema({
   },
   specie: {
     type: String,
-    requierd: true,
+    required: true,
   },
-  birthday: {
+  birthdate: {
     type: Date,
     required: true,
   },
@@ -21,6 +21,11 @@ const petSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
+  },
+  gender: {
+    type: String,
+    enum: ["macho", "hembra"],
+    required: true,
   },
 });
 

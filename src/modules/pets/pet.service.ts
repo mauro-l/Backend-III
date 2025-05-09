@@ -1,11 +1,35 @@
 import type { Types } from "mongoose";
-import { DatabaseError, NotFoundError } from "../../common/errors/errors.ts";
+import {
+  BadRequestError,
+  ConflictError,
+  DatabaseError,
+  NotFoundError,
+} from "../../common/errors/errors.ts";
 import { petDao } from "./pet.dao.ts";
 import { generatePetsMock } from "../../mock/pets.mock.ts";
 import type { IPet } from "./pet.interface.ts";
+import { logger } from "../../common/utils/loggers.ts";
 
 class PetService {
   async create(data: IPet): Promise<IPet> {
+    const existingPet = await petDao.getOne({
+      name: data.name,
+      birthdate: data.birthdate,
+      gender: data.gender,
+    });
+    console.log(
+      "Pet",
+      data,
+      "birthdate",
+      typeof data.birthdate,
+      data.birthdate
+    );
+    console.log("existingPet", existingPet);
+    if (existingPet)
+      throw new ConflictError(
+        "Pet with the same name, birthdate, and gender already exists"
+      );
+
     const newPet = await petDao.create(data);
     if (!newPet) throw new DatabaseError("Failed to create pet");
     return newPet;

@@ -6,8 +6,7 @@ import { Types } from "mongoose";
 class PetController {
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { body } = req.body;
-      const newPet = await petService.create(body);
+      const newPet = await petService.create(req.body);
 
       res.status(201).json({ status: "ok", payload: newPet });
     } catch (err) {
@@ -24,7 +23,11 @@ class PetController {
     }
   }
 
-  async getOne(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async getOneById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const { id } = req.params;
       if (!id) throw new BadRequestError("ID parameter is required");
@@ -36,12 +39,14 @@ class PetController {
   }
   async update(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { id } = req.params;
-    const { body } = req.body;
     if (!id) throw new BadRequestError("ID parameter is required");
     if (!Types.ObjectId.isValid(id))
       throw new BadRequestError("Invalid ownerId format");
     try {
-      const petUpdate = await petService.update(new Types.ObjectId(id), body);
+      const petUpdate = await petService.update(
+        new Types.ObjectId(id),
+        req.body
+      );
       res.status(200).json({ status: "ok", payload: petUpdate });
     } catch (err) {
       next(err);

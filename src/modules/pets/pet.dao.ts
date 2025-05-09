@@ -13,6 +13,10 @@ class PetDao {
     return await petModel.find();
   }
 
+  async getOne(filter: FilterQuery<IPet>): Promise<IPet | null> {
+    return await petModel.findOne(filter).exec(); // Busca un documento que coincida con los criterios
+  }
+
   async getOneById(id: Types.ObjectId): Promise<IPet | null> {
     return await petModel.findById(id);
   }

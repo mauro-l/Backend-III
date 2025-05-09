@@ -21,7 +21,8 @@ describe("===== TEST PETDAO =====", () => {
     const newPet = {
       name: "Felix",
       specie: "Gato",
-      birthday: "2020-01-01",
+      birthdate: "2020-01-01",
+      gender: "macho",
       image: "https://example.com/felix.jpg",
     };
     petTest = await petDao.create(newPet); // Crea un usuario para las pruebas
@@ -43,7 +44,7 @@ describe("===== TEST PETDAO =====", () => {
     expect(pet).to.have.property("_id");
     expect(pet).to.have.property("name");
     expect(pet).to.have.property("specie");
-    expect(pet).to.have.property("birthday");
+    expect(pet).to.have.property("birthdate");
     expect(pet).to.have.property("image");
 
     expect(pet.name).to.be.equal("Felix");
@@ -61,7 +62,7 @@ describe("===== TEST PETDAO =====", () => {
     expect(petUpdate).to.have.property("_id");
     expect(petUpdate).to.have.property("name");
     expect(petUpdate).to.have.property("specie");
-    expect(petUpdate).to.have.property("birthday");
+    expect(petUpdate).to.have.property("birthdate");
     expect(petUpdate).to.have.property("image");
 
     expect(petUpdate.name).to.be.equal("Limon");

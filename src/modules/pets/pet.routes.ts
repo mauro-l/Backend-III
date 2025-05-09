@@ -8,7 +8,7 @@ import { objectIdSchema } from "../../common/schemas/objectId.schema.ts";
 const router = Router();
 
 router.get("/", petController.getAll);
-router.get("/:id", validateSchema(objectIdSchema), petController.getOne);
+router.get("/:id", validateSchema(objectIdSchema), petController.getOneById);
 router.post("/", validateSchema(petsSchema), petController.create);
 router.put("/:id", validateSchema(petsUpdateSchema), petController.update);
 router.delete("/:id", validateSchema(objectIdSchema), petController.remove);
