@@ -1,21 +1,18 @@
 import {
+  createParameter,
   createResNotFound,
-  parametersId,
-  responseOk,
+  responseSuccess,
 } from "../../utils/responses.utils.ts";
-import { userExample, userProperties } from "../userDoc.schema.ts";
+import { userResSuccess } from "../userDoc.schema.ts";
 
 export const userGetByIdPath = {
   summary: "Get user by ID",
   description: "Retrieve a user from the system by their ID.",
   operationId: "getUserById",
   tags: ["Users"],
-  parameters: parametersId,
+  parameters: [createParameter()],
   responses: {
-    200: {
-      description: "User found",
-      content: responseOk(userProperties, userExample),
-    },
+    200: responseSuccess("User found", userResSuccess),
     404: createResNotFound("User not found", "No users found"),
   },
 };

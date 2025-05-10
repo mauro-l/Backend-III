@@ -1,32 +1,29 @@
 import {
+  createParameter,
   createResNotFound,
-  parametersId,
-  responseOk,
+  responseSuccess,
 } from "../../utils/responses.utils.ts";
-import {
-  userDocSchema,
-  userExample,
-  userProperties,
-} from "../userDoc.schema.ts";
+import { userProperties, userResSuccess } from "../userDoc.schema.ts";
 
 export const userUpdatePath = {
   summary: "Update user by ID",
   description: "Update user information by their ID.",
   tags: ["Users"],
-  parameters: parametersId,
+  parameters: [createParameter("id")],
   requestBody: {
     required: true,
     content: {
       "application/json": {
-        schema: userDocSchema,
+        schema: {
+          type: "object",
+          properties: userProperties,
+        },
       },
     },
   },
   responses: {
-    200: {
-      description: "User updated successfully",
-      content: responseOk(userProperties, userExample),
-    },
+    200: responseSuccess("User updated successfully", userResSuccess),
+    400: createResNotFound("Bad request", "Password cannot be updated"),
     404: createResNotFound("User not found", "No users found"),
   },
 };

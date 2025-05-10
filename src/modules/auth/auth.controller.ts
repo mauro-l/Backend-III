@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { authService } from "./auth.service.ts";
+import { fi } from "@faker-js/faker";
 
 class AuthController {
   async registerUser(
@@ -9,7 +10,8 @@ class AuthController {
   ): Promise<void> {
     try {
       const newUser = await authService.registerUser(req.body);
-      res.status(201).json({ status: "ok", payload: newUser });
+      const { password, pets, ...newPayload } = newUser;
+      res.status(201).json({ status: "ok", payload: newPayload });
     } catch (err) {
       next(err);
     }

@@ -1,5 +1,9 @@
 import { Types } from "mongoose";
-import { DatabaseError, NotFoundError } from "../../common/errors/errors.ts";
+import {
+  BadRequestError,
+  DatabaseError,
+  NotFoundError,
+} from "../../common/errors/errors.ts";
 import { userDao } from "./user.dao.ts";
 import { generateUserMock } from "../../mock/user.mock.ts";
 import type { IUser } from "./user.interface.ts";
@@ -26,6 +30,8 @@ class UserService {
   async update(id: Types.ObjectId, data: Partial<IUser>): Promise<IUser> {
     const user = await userDao.getOne(id);
     if (!user) throw new NotFoundError("No users found");
+
+    if (data.password) throw new BadRequestError("Password cannot be updated");
 
     const userUpdate = await userDao.update(id, data);
     if (!userUpdate) throw new DatabaseError("Failed to update user");

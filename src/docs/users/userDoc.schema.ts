@@ -22,11 +22,6 @@ export const userDocSchema = {
       description: "Email address of the user",
       example: "John.Doe@example.com",
     },
-    password: {
-      type: "string",
-      description: "Password of the user",
-      example: "password123",
-    },
     role: {
       type: "string",
       description: "Role of the user (optional, default is 'user')",
@@ -47,12 +42,10 @@ export const userDocSchema = {
 };
 
 export const userProperties = {
-  id: { type: "string", format: "ObjectId" },
-  first_name: { type: "string" },
-  last_name: { type: "string" },
-  email: { type: "string" },
-  password: { type: "string" },
-  role: { type: "string" },
+  first_name: { type: "string", example: "steve" },
+  last_name: { type: "string", example: "dew" },
+  email: { type: "string", example: "steve@example.com" },
+  role: { type: "string", example: "user" },
   pets: {
     type: "array",
     description: "Array of pet IDs associated with the user",
@@ -64,12 +57,21 @@ export const userProperties = {
   },
 };
 
-export const userExample = {
-  id: "67eef3bc235409c2e3ab7463",
-  first_name: "John",
-  last_name: "Doe",
-  email: "johndoe@mail.com",
-  password: "hashed_password",
-  role: "user",
-  pets: ["681e83dc14cf3fa665ab6f47", "681e83dc14cf3fa665ab6f47"],
+export const userResSuccess = {
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+      format: "ObjectId",
+      example: "681e64608c4d8b0f8ddd4ba8",
+    },
+    first_name: { type: "string", example: "steve" },
+    last_name: { type: "string", example: "dew" },
+    email: { type: "string", example: "steve@example.com" },
+    role: { type: "string", example: "user" },
+    pets: {
+      type: "array",
+      example: ["681e64608c4d8b0f8ddd4ba8", "681e64608c4d8b0f8ddd4ba9"],
+    },
+  },
 };

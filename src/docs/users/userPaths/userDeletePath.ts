@@ -1,13 +1,13 @@
 import {
+  createParameter,
   createResNotFound,
-  parametersId,
 } from "../../utils/responses.utils.ts";
 
 export const userDeletePath = {
   summary: "Delete user by ID",
   description: "Delete a user from the system by their ID.",
   tags: ["Users"],
-  parameters: parametersId,
+  parameters: [createParameter("id")],
   responses: {
     200: {
       description: "User deleted successfully",
@@ -17,7 +17,7 @@ export const userDeletePath = {
             type: "object",
             properties: {
               status: { type: "string", example: "ok" },
-              payload: "User deleted",
+              payload: { type: "string", example: "User deleted" },
             },
           },
         },

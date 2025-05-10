@@ -1,5 +1,7 @@
 import { userDocSchema } from "../docs/users/userDoc.schema.ts";
 import { userPath } from "../docs/users/user.path.ts";
+import { authPath } from "../docs/auth/auth.path.ts";
+import { authDocSchema } from "../docs/auth/authDoc.schema.ts";
 
 export const swaggerOptions = {
   openapi: "3.0.0",
@@ -31,13 +33,12 @@ export const swaggerOptions = {
   ],
   paths: {
     ...userPath,
+    ...authPath,
   },
   components: {
     schemas: {
       User: userDocSchema,
+      Auth: authDocSchema,
     },
   },
 };
-// apis: ["./src/modules/**/*.ts"],
-
-/* export const swaggerDocs = swaggerJSDoc(swaggerOptions); */
