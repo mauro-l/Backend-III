@@ -1,6 +1,5 @@
 import type { Types } from "mongoose";
 import {
-  BadRequestError,
   ConflictError,
   DatabaseError,
   NotFoundError,
@@ -8,7 +7,6 @@ import {
 import { petDao } from "./pet.dao.ts";
 import { generatePetsMock } from "../../mock/pets.mock.ts";
 import type { IPet } from "./pet.interface.ts";
-import { logger } from "../../common/utils/loggers.ts";
 
 class PetService {
   async create(data: IPet): Promise<IPet> {
@@ -17,14 +15,6 @@ class PetService {
       birthdate: data.birthdate,
       gender: data.gender,
     });
-    console.log(
-      "Pet",
-      data,
-      "birthdate",
-      typeof data.birthdate,
-      data.birthdate
-    );
-    console.log("existingPet", existingPet);
     if (existingPet)
       throw new ConflictError(
         "Pet with the same name, birthdate, and gender already exists"

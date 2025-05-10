@@ -25,7 +25,19 @@ class AdoptionDao {
   }
 
   async getOne(id: Types.ObjectId): Promise<IAdoption | null> {
-    return await adoptionModel.findById(id);
+    const adoption = await adoptionModel
+      .findById(id)
+      .populate({
+        path: "owner",
+        select: "first_name last_name pets", // Solo incluir estos campos del owner
+      })
+      .populate({
+        path: "pet",
+        select: "name specie", // Solo incluir estos campos del pet
+      })
+      .lean();
+
+    return adoption as IAdoption | null;
   }
 
   async update(
@@ -35,8 +47,9 @@ class AdoptionDao {
     return await adoptionModel.findByIdAndUpdate(id, data, { new: true });
   }
 
-  async remove(id: Types.ObjectId) {
-    return await adoptionModel.findByIdAndDelete(id);
+  async remove(id: Types.ObjectId): Promise<string> {
+    await adoptionModel.findByIdAndDelete(id);
+    return "Adoption deleted successfully";
   }
 }
 

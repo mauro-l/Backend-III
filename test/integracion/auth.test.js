@@ -33,8 +33,8 @@ describe("===== TEST AUTH =====", () => {
     expect(status).to.be.equal(201);
     expect(body).to.be.an("object");
     expect(body.status).to.be.equal("ok");
-    expect(userTest.first_name).to.be.equal("Marito");
-    expect(userTest.last_name).to.be.equal("Borgues");
+    expect(userTest.first_name).to.be.equal("marito");
+    expect(userTest.last_name).to.be.equal("borgues");
     expect(userTest.email).to.be.equal("marito.borgues@mail.com");
     expect(userTest.password).to.not.be.equal("123456");
   });
@@ -61,8 +61,8 @@ describe("===== TEST AUTH =====", () => {
     expect(status).to.be.equal(200);
     expect(body).to.be.an("object");
     expect(body.status).to.be.equal("ok");
-    expect(findedUser.first_name).to.be.equal("Marito");
-    expect(findedUser.last_name).to.be.equal("Borgues");
+    expect(findedUser.first_name).to.be.equal("marito");
+    expect(findedUser.last_name).to.be.equal("borgues");
     expect(findedUser.email).to.be.equal("marito.borgues@mail.com");
     expect(findedUser.password).to.not.be.equal("123456");
     expect(findedUser.role).to.be.equal("user");

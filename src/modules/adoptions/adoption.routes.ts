@@ -17,5 +17,10 @@ router.post(
   validateSchema(adoptionSchema),
   adoptionController.createAdoption
 );
+router.delete(
+  "/:id",
+  validateSchema(objectIdSchema),
+  adoptionController.removeAdoption
+);
 
 export default router;

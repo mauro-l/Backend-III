@@ -64,7 +64,6 @@ describe("===== TEST PETDAO =====", () => {
     expect(petUpdate).to.have.property("specie");
     expect(petUpdate).to.have.property("birthdate");
     expect(petUpdate).to.have.property("image");
-
     expect(petUpdate.name).to.be.equal("Limon");
   });
 

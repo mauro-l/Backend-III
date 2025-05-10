@@ -11,16 +11,24 @@ export const userSchema = {
     first_name: z
       .string()
       .min(3, { message: "First name must be at least 3 characters long" })
-      .max(20, { message: "First name must be at most 20 characters long" }),
+      .max(20, { message: "First name must be at most 20 characters long" })
+      .transform((val) => val.toLowerCase()),
     last_name: z
       .string()
       .min(3, { message: "Last name must be at least 3 characters long" })
-      .max(30, { message: "Last name must be at most 30 characters long" }),
-    email: z.string().email("Invalid email format"),
+      .max(30, { message: "Last name must be at most 30 characters long" })
+      .transform((val) => val.toLowerCase()),
+    email: z
+      .string()
+      .email("Invalid email format")
+      .transform((val) => val.toLowerCase()),
     password: z
       .string()
       .min(6, { message: "Password must be at least 6 characters long" }),
-    role: z.enum(["user", "admin"]).optional(),
+    role: z
+      .enum(["user", "admin"])
+      .transform((val) => val.toLowerCase())
+      .optional(),
     pets: z
       .array(
         z.string().regex(/^[0-9a-fA-F]{24}$/, { message: "Invalid ObjectId" })
@@ -42,18 +50,27 @@ export const userUpdateSchema = {
         .string()
         .min(3, { message: "First name must be at least 3 characters long" })
         .max(20, { message: "First name must be at most 20 characters long" })
+        .transform((val) => val.toLowerCase())
         .optional(),
       last_name: z
         .string()
         .min(3, { message: "Last name must be at least 3 characters long" })
         .max(30, { message: "Last name must be at most 30 characters long" })
+        .transform((val) => val.toLowerCase())
         .optional(),
-      email: z.string().email("Invalid email format").optional(),
+      email: z
+        .string()
+        .email("Invalid email format")
+        .transform((val) => val.toLowerCase())
+        .optional(),
       password: z
         .string()
         .min(6, { message: "Password must be at least 6 characters long" })
         .optional(),
-      role: z.enum(["user", "admin"]).optional(),
+      role: z
+        .enum(["user", "admin"])
+        .transform((val) => val.toLowerCase())
+        .optional(),
       pets: z
         .array(
           z.string().regex(/^[0-9a-fA-F]{24}$/, { message: "Invalid ObjectId" })

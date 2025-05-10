@@ -49,6 +49,24 @@ class AdoptionController {
       next(err);
     }
   }
+
+  async removeAdoption(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { id } = req.params;
+      if (!id) throw new BadRequestError("ID parameter is required");
+
+      const response = await adoptionService.removeAdoption(
+        new Types.ObjectId(id)
+      );
+      res.status(200).json({ status: "ok", payload: response });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export const adoptionController = new AdoptionController();
