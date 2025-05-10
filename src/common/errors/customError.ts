@@ -22,5 +22,5 @@ export const customError: ErrorRequestHandler = (err, req, res, next) => {
   } else {
     logger.debug(JSON.stringify(error, null, 2));
   }
-  res.status(statusCode).json({ message });
+  res.status(statusCode).json({ status: "error", message });
 };
