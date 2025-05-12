@@ -35,7 +35,8 @@ class AdoptionDao {
         path: "pet",
         select: "name specie", // Solo incluir estos campos del pet
       })
-      .lean();
+      .lean()
+      .exec();
 
     return adoption as IAdoption | null;
   }

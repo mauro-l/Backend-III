@@ -9,7 +9,7 @@ export const userUpdatePath = {
   summary: "Update user by ID",
   description: "Update user information by their ID.",
   tags: ["Users"],
-  parameters: [createParameter("id")],
+  parameters: [createParameter("user", "id")],
   requestBody: {
     required: true,
     content: {

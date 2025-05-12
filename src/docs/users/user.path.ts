@@ -8,12 +8,12 @@ export const userPath = {
   "/user": {
     get: userGetAllPath,
   },
-  "/user/:id": {
+  "/user/{id}": {
     get: userGetByIdPath,
     put: userUpdatePath,
     delete: userDeletePath,
   },
-  "/user/mocks/:amount": {
+  "/user/mocks/{amount}": {
     get: userMockPath,
   },
 };

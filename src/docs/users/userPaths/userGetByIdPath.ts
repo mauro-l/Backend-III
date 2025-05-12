@@ -10,7 +10,7 @@ export const userGetByIdPath = {
   description: "Retrieve a user from the system by their ID.",
   operationId: "getUserById",
   tags: ["Users"],
-  parameters: [createParameter()],
+  parameters: [createParameter("user", "id")],
   responses: {
     200: responseSuccess("User found", userResSuccess),
     404: createResNotFound("User not found", "No users found"),

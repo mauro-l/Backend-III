@@ -7,7 +7,7 @@ export const userDeletePath = {
   summary: "Delete user by ID",
   description: "Delete a user from the system by their ID.",
   tags: ["Users"],
-  parameters: [createParameter("id")],
+  parameters: [createParameter("user", "id")],
   responses: {
     200: {
       description: "User deleted successfully",

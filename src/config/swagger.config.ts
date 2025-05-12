@@ -2,6 +2,10 @@ import { userDocSchema } from "../docs/users/userDoc.schema.ts";
 import { userPath } from "../docs/users/user.path.ts";
 import { authPath } from "../docs/auth/auth.path.ts";
 import { authDocSchema } from "../docs/auth/authDoc.schema.ts";
+import { petPath } from "../docs/pets/pets.path.ts";
+import { petDocSchema } from "../docs/pets/petDoc.schema.ts";
+import { adoptionPath } from "../docs/adoptions/adoption.path.ts";
+import { adoptionDocSchema } from "../docs/adoptions/adoptionDoc.schema.ts";
 
 export const swaggerOptions = {
   openapi: "3.0.0",
@@ -34,11 +38,15 @@ export const swaggerOptions = {
   paths: {
     ...userPath,
     ...authPath,
+    ...petPath,
+    ...adoptionPath,
   },
   components: {
     schemas: {
       User: userDocSchema,
       Auth: authDocSchema,
+      Pets: petDocSchema,
+      Adoption: adoptionDocSchema,
     },
   },
 };

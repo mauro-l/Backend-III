@@ -74,19 +74,22 @@ export const responseSuccess = (descrip: string, payload: object) => ({
   },
 ]; */
 
-export const createParameter = (name: "id" | "amount" = "id") => {
+export const createParameter = (
+  entity: string,
+  name: "id" | "amount" = "id"
+) => {
   const params = {
     id: {
-      description: "ID of the user to retrieve",
+      description: `ID of the ${entity} to retrieve`,
       schema: {
         type: "string",
         format: "ObjectId",
-        description: "Unique identifier for the user",
+        description: `Unique identifier for the ${entity}`,
         example: "681e64608c4d8b0f8ddd4ba8",
       },
     },
     amount: {
-      description: "Number of mock users to create",
+      description: `Number of mock ${entity}s to create`,
       schema: {
         type: "integer",
         example: 10,
