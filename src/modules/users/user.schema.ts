@@ -24,7 +24,9 @@ export const userSchema = {
       .transform((val) => val.toLowerCase()),
     password: z
       .string()
-      .min(6, { message: "Password must be at least 6 characters long" }),
+      .trim()
+      .min(6, { message: "Password must be at least 6 characters long" })
+      .nonempty({ message: "Password cannot be empty" }),
     role: z
       .enum(["user", "admin"])
       .transform((val) => val.toLowerCase())
@@ -66,10 +68,6 @@ export const userUpdateSchema = {
       password: z
         .string()
         .min(6, { message: "Password must be at least 6 characters long" })
-        .optional(),
-      role: z
-        .enum(["user", "admin"])
-        .transform((val) => val.toLowerCase())
         .optional(),
       pets: z
         .array(

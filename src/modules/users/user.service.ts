@@ -24,7 +24,8 @@ class UserService {
   async getOne(id: Types.ObjectId): Promise<IUser> {
     const user = await userDao.getOne(id);
     if (!user) throw new NotFoundError("User not found");
-    return user;
+    const { password, ...safeUser } = user;
+    return safeUser;
   }
 
   async update(id: Types.ObjectId, data: Partial<IUser>): Promise<IUser> {

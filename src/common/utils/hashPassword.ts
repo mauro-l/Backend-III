@@ -6,5 +6,8 @@ export const createHash = (password: string): string => {
 };
 
 export const isValidPassword = (user: IUser, password: string): boolean => {
+  if (!user.password) {
+    throw new Error("User password is not defined");
+  }
   return bcrypt.compareSync(password, user.password);
 };

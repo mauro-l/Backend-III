@@ -14,6 +14,8 @@ class AuthService {
   async registerUser(user: IUser) {
     const findUser = await userDao.getOne({ email: user.email });
     if (findUser) throw new ConflictError("User already exists");
+    if (!user.email || !user.password)
+      throw new ConflictError("Email and password are required");
 
     const newUserData = {
       ...user,

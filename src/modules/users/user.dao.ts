@@ -9,7 +9,7 @@ class UserDao {
   }
 
   async getAll(): Promise<IUser[] | null> {
-    return await userModel.find();
+    return await userModel.find().select("-password");
   }
 
   async getOne(query: FilterQuery<IUser>): Promise<IUser | null> {
@@ -20,7 +20,9 @@ class UserDao {
     id: Types.ObjectId,
     data: Partial<IUser>
   ): Promise<IUser | null> {
-    return await userModel.findByIdAndUpdate(id, data, { new: true });
+    return await userModel
+      .findByIdAndUpdate(id, data, { new: true })
+      .select("-password");
   }
 
   async remove(id: Types.ObjectId): Promise<IUser | null> {
