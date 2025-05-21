@@ -7,6 +7,10 @@ import { connectDB } from "./config/mongodb.config.ts";
 import { customError } from "./common/errors/customError.ts";
 import swaggerUiExpress from "swagger-ui-express";
 import { swaggerOptions } from "./config/swagger.config.ts";
+import {
+  globalLimitMiddleware,
+  ipRateLimiter,
+} from "./common/middlewares/rateLimiter.ts";
 
 connectDB();
 const app = express();
@@ -14,6 +18,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/api", ipRateLimiter);
+app.use("/api", globalLimitMiddleware);
 
 app.use("/api", router);
 

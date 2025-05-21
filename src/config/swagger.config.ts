@@ -6,6 +6,8 @@ import { petPath } from "../docs/pets/pets.path.ts";
 import { petDocSchema } from "../docs/pets/petDoc.schema.ts";
 import { adoptionPath } from "../docs/adoptions/adoption.path.ts";
 import { adoptionDocSchema } from "../docs/adoptions/adoptionDoc.schema.ts";
+import { limitsDocSchema } from "../docs/limits/limitsDoc.schema.ts";
+import { limitsPath } from "../docs/limits/limits.path.ts";
 
 export const swaggerOptions = {
   openapi: "3.0.0",
@@ -20,6 +22,8 @@ export const swaggerOptions = {
         - User and pet registration.
         - List of adopted and available pets.
         - Registration of adopters and tracking of how many pets they have adopted.
+        - **Rate limiting:** The API enforces a global daily request limit and a per-IP hourly limit to ensure fair usage and protect system stability. 
+          Each request returns headers with your remaining daily quota. If you exceed the limits, you will receive a 429 error response.
         
         Key technologies:
         - Backend built with Node.js, Express, and Bun.
@@ -40,6 +44,7 @@ export const swaggerOptions = {
     ...authPath,
     ...petPath,
     ...adoptionPath,
+    ...limitsPath,
   },
   components: {
     schemas: {
@@ -47,6 +52,7 @@ export const swaggerOptions = {
       Auth: authDocSchema,
       Pets: petDocSchema,
       Adoption: adoptionDocSchema,
+      Limits: limitsDocSchema,
     },
   },
 };
