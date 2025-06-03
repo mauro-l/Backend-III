@@ -79,7 +79,8 @@ export const petsUpdateSchema = {
         .transform((val) => val.toLowerCase())
         .refine((val) => ["macho", "hembra"].includes(val), {
           message: "Invalid enum value. Expected 'macho' | 'hembra'",
-        }),
+        })
+        .optional(),
       image: z.string().optional(),
       owner: z
         .string()

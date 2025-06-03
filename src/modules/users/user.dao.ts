@@ -13,7 +13,17 @@ class UserDao {
   }
 
   async getOne(query: FilterQuery<IUser>): Promise<IUser | null> {
-    return await userModel.findOne(query);
+    const user = await userModel.findOne(query).lean();
+    if (!user) return null;
+    return {
+      id: user._id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      password: user.password,
+      role: user.role === "admin" ? "admin" : "user",
+      pets: user.pets ?? [],
+    };
   }
 
   async update(
