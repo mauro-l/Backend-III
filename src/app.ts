@@ -3,7 +3,7 @@ import cors from "cors";
 import router from "./routes/index.routes.ts";
 import { envsConfig } from "./config/envs.config.ts";
 import { logger } from "./common/utils/loggers.ts";
-import { connectDB } from "./config/mongodb.config.ts";
+import { connectDB, disconnectDB } from "./config/mongodb.config.ts";
 import { customError } from "./common/errors/customError.ts";
 import swaggerUiExpress from "swagger-ui-express";
 import { swaggerOptions } from "./config/swagger.config.ts";
@@ -33,9 +33,21 @@ app.use(
 );
 app.use(customError);
 
-app.listen(envsConfig.PORT, () => {
-  logger.info(`Server is running ⚡️ at http://localhost:${envsConfig.PORT}`);
+// Solo ejecutar listen si NO estamos en Vercel
+if (envsConfig.ENVIRONMENT !== "PROD") {
+  app.listen(envsConfig.PORT, () => {
+    logger.info(`Server is running ⚡️ at http://localhost:${envsConfig.PORT}`);
+  });
+  logger.info(
+    `API docs 📑 available at http://localhost:${envsConfig.PORT}/docs`
+  );
+}
+
+// Graceful shutdown
+process.on("SIGINT", async () => {
+  logger.info(
+    "Shutting down server and disconnecting from MongoDB gracefully..."
+  );
+  await disconnectDB();
+  process.exit(0);
 });
-logger.info(
-  `API docs 📑 available at http://localhost:${envsConfig.PORT}/docs`
-);
