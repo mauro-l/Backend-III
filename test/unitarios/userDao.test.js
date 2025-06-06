@@ -46,7 +46,7 @@ describe("===== TEST USERDAO =====", () => {
     const user = await userDao.getOne({ _id: userTest._id });
 
     expect(user).to.be.an("object");
-    expect(user).to.have.property("_id");
+    expect(user).to.have.property("id");
     expect(user).to.have.property("first_name");
     expect(user).to.have.property("last_name");
     expect(user).to.have.property("email");
