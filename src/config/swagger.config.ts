@@ -13,7 +13,7 @@ export const swaggerOptions = {
   openapi: "3.0.0",
   info: {
     title: "API Documentation Adoptation Pets",
-    version: "1.1.5",
+    version: "1.2.0",
     description: `
         Adoptation Pets is a final project developed for the Advanced Backend course at CoderHouse. 
         This API allows animal shelters to efficiently manage pet adoptions.
