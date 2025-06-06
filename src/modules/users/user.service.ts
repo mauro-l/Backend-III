@@ -55,7 +55,6 @@ class UserService {
   }
 
   async createUserMocks(amount: number): Promise<IUser[]> {
-    await userDao.removeAll();
     const users = generateUserMock(amount);
     const createdUsers: IUser[] = [];
 

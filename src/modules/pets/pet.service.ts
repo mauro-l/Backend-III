@@ -63,7 +63,6 @@ class PetService {
   }
 
   async createPetsMocks(amount: number): Promise<IPet[] | null> {
-    await petDao.removeMockAll();
     const pets = generatePetsMock(amount);
     const createdPets: IPet[] = [];
 
