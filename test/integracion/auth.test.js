@@ -45,13 +45,24 @@ describe("===== TEST AUTH =====", () => {
       password: "123456",
     };
 
-    const { status, body } = await request.post("/auth/login").send(data);
+    const { status, body, headers } = await request
+      .post("/auth/login")
+      .send(data);
 
+    // Verifica status y body
     expect(status).to.be.equal(200);
     expect(body).to.be.an("object");
     expect(body.status).to.be.equal("ok");
     expect(body.message).to.be.equal("Login successful");
-    expect(body.token).to.be.an("string");
+
+    // Verifica que NO haya token en el body
+    expect(body.token).to.be.undefined;
+
+    // Verifica la cookie
+    const cookies = headers["set-cookie"];
+    expect(cookies).to.be.an("array");
+    const tokenCookie = cookies.find((c) => c.startsWith("token="));
+    expect(tokenCookie).to.include("HttpOnly");
   });
 
   it("[User|Find] /user/:id - Should find user by Id", async () => {
